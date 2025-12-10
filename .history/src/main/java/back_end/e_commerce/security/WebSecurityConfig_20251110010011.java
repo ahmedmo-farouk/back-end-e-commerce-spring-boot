@@ -1,0 +1,49 @@
+// package back_end.e_commerce.security;
+
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Configuration;
+// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+// import org.springframework.security.web.SecurityFilterChain;
+// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+// import org.springframework.http.HttpMethod;
+
+// @Configuration
+// @EnableWebSecurity
+// public class WebSecurityConfig {
+
+//     private final JWTRequestFilter jwtRequestFilter;
+
+//     public WebSecurityConfig(JWTRequestFilter jwtRequestFilter) {
+//         this.jwtRequestFilter = jwtRequestFilter;
+//     }
+
+//     @Bean
+//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//         http
+//             .csrf(csrf -> csrf.disable()) // إيقاف CSRF
+//             .authorizeHttpRequests(auth -> auth
+//             .requestMatchers(HttpMethod.GET, "/product/**").permitAll() // عرض المنتجات بدون توكن
+//             .requestMatchers(HttpMethod.POST, "/product/**").authenticated() // إضافة منتج تحتاج توكن
+//             .requestMatchers("/auth/**").permitAll()
+//             .anyRequest().authenticated()
+//         )
+//             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+//         return http.build();
+//     }
+// }
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf().disable() // تعطيل CSRF للتجربة فقط
+        .authorizeHttpRequests()
+        .requestMatchers("/api/products/**").permitAll() // السماح لكل الطلبات على هذا المسار
+        .anyRequest().authenticated();
+
+    return http.build();
+}
