@@ -73,7 +73,6 @@ public class productController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllProducts(
             @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String name,
             @RequestParam(required = false) String category) {
 
         try {
